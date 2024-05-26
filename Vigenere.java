@@ -3,7 +3,11 @@ import java.util.Arrays;
 
 
 public class Vigenere{
-
+    /** This class implements the Vigenère cipher, a method of encrypting alphabetic text.
+    *    It provides functionality to construct a Vigenère table, prepend a keyword to the base alphabet,
+    *    create a new Vigenère table, print the Vigenère table, encrypt a plaintext message using a key stream,
+    *    and format the key stream to match the length of the plaintext.
+    */
     private static String englishAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
     private static ArrayList <String> cipheredDictionary = new ArrayList<>(); 
     
@@ -80,22 +84,56 @@ public class Vigenere{
         for (int i = 0; i < cipheredDictionary.size(); i++){
             System.out.println("    "+ englishAlphabet.charAt(i)+ "  " + cipheredDictionary.get(i) + "     "); 
         }
-    
     }
     
     
-    public static void main(String[]args){
-    
-        Vigenere program = new Vigenere(); 
-        program.newVigenereTable("KRYPTOS");  
-    
+    /**
+    * Encrypts the plaintext message using the provided key stream.
+    * 
+    * @param keyStream The key stream used for encryption.
+    * @param plainText The plaintext message to be encrypted.
+    * @return The ciphertext obtained by encrypting the plaintext message.
+    */
+    public String encryptMessage(String keyStream, String plainText){
+        keyStream = formatKeyStream(keyStream, plainText); 
+        ArrayList<String> cipherTextArr = new ArrayList<>(); 
+        char tempPlainTextChar;
+        int plainTextInt;  
+        int keyStreamInt; 
+        String tempCipherText; 
+        
+        for(int i = 0; i < plainText.length(); i++){
+            if(!Character.isLetter(plainText.charAt(i))){
+                cipherTextArr.add(Character.toString(plainText.charAt(i))); 
+            }else{
+                plainTextInt = cipheredDictionary.get(0).indexOf(plainText.charAt(i)); 
+                keyStreamInt = cipheredDictionary.get(0).indexOf(keyStream.charAt(i)); 
+                    
+                tempCipherText = Character.toString(cipheredDictionary.get(plainTextInt).charAt(keyStreamInt)); 
+        
+                cipherTextArr.add(tempCipherText);
+            }  
+        }return String.join("", cipherTextArr); 
     }
-
     
-
-
-
-
-
+    /**
+    * Formats the key stream to match the length of the plaintext by repeating the key stream if necessary.
+    * 
+    * @param keyStream The key stream to be formatted.
+    * @param plainText The plaintext whose length will be used for formatting the key stream.
+    * @return The formatted key stream with the same length as the plaintext.
+    */
+    public String formatKeyStream(String keyStream, String plainText){
+    
+        int plainTextLength = plainText.length(); 
+        int keyStreamLength = keyStream.length(); 
+        char tempCharacter; 
+        
+        for(int i = 0; i <(plainTextLength - keyStreamLength); i++){
+            tempCharacter = keyStream.charAt(i); 
+            keyStream += tempCharacter; 
+        
+        }return keyStream; 
+    }
 }
 
