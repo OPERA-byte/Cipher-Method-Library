@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
+// Key: GLYPH, KeyStream: SATOR
 public class Vigenere{
     /** This class implements the Vigenère cipher, a method of encrypting alphabetic text.
     *    It provides functionality to construct a Vigenère table, prepend a keyword to the base alphabet,
@@ -10,6 +10,7 @@ public class Vigenere{
     */
     private static String englishAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
     private static ArrayList <String> cipheredDictionary = new ArrayList<>(); 
+    private static String keyStream;  
     
     /**
     * Constructs a Vigenère table (also known as a Vigenère square) using the provided base alphabet.
@@ -21,7 +22,7 @@ public class Vigenere{
     *                     ArrayList of strings where each string is a single character.
     */
     public void constructVigenereTable(ArrayList<String> baseAlphabet){
-    
+        cipheredDictionary.clear(); 
         String tempCharacter; 
         ArrayList<String> subSet = new ArrayList<>(); 
         cipheredDictionary.add(String.join("", baseAlphabet));  
@@ -73,7 +74,14 @@ public class Vigenere{
         ArrayList<String> baseAlphabet = new ArrayList<>(); 
         baseAlphabet.addAll(prependKeywordToBaseAlphabet(dictionaryKey)); 
         constructVigenereTable(baseAlphabet); 
-        printVigenereTable(); 
+        //printVigenereTable(); 
+    }
+    
+    public void newVigenereTable(){
+        ArrayList<String> baseAlphabet = new ArrayList<>(); 
+        baseAlphabet.addAll(prependKeywordToBaseAlphabet("GLYPH")); 
+        constructVigenereTable(baseAlphabet); 
+        //printVigenereTable();
     }
     
     //Print VigenereTable 
@@ -86,7 +94,6 @@ public class Vigenere{
         }
     }
     
-    
     /**
     * Encrypts the plaintext message using the provided key stream.
     * 
@@ -94,8 +101,8 @@ public class Vigenere{
     * @param plainText The plaintext message to be encrypted.
     * @return The ciphertext obtained by encrypting the plaintext message.
     */
-    public String encryptMessage(String keyStream, String plainText){
-        keyStream = formatKeyStream(keyStream, plainText); 
+    public String encrypt(String tempKeyStream, String plainText){
+        keyStream = formatKeyStream(tempKeyStream, plainText); 
         ArrayList<String> cipherTextArr = new ArrayList<>(); 
         char tempPlainTextChar;
         int plainTextInt;  
@@ -117,6 +124,39 @@ public class Vigenere{
     }
     
     /**
+     * Encrypts the given plaintext message using the Vigenère cipher.
+    *
+    * This method first constructs a new Vigenère table, formats the key stream to match the length
+    * of the plaintext using the keyword "SATOR", and then encrypts each character of the plaintext.
+    * Non-letter characters in the plaintext are added directly to the ciphertext without encryption.
+    *
+    * @param plainText The plaintext message to be encrypted.
+    * @return The resulting ciphertext after encryption.
+    */
+    public String encrypt(String plainText){
+        newVigenereTable(); 
+        String keyStream = formatKeyStream("SATOR", plainText); 
+        ArrayList<String> cipherTextArr = new ArrayList<>(); 
+        char tempPlainTextChar;
+        int plainTextInt;  
+        int keyStreamInt; 
+        String tempCipherText; 
+        
+        for(int i = 0; i < plainText.length(); i++){
+            if(!Character.isLetter(plainText.charAt(i))){
+                cipherTextArr.add(Character.toString(plainText.charAt(i))); 
+            }else{
+                plainTextInt = cipheredDictionary.get(0).indexOf(plainText.charAt(i)); 
+                keyStreamInt = cipheredDictionary.get(0).indexOf(keyStream.charAt(i)); 
+                    
+                tempCipherText = Character.toString(cipheredDictionary.get(plainTextInt).charAt(keyStreamInt)); 
+        
+                cipherTextArr.add(tempCipherText);
+            }  
+        }return String.join("", cipherTextArr);
+    }
+    
+    /**
     * Formats the key stream to match the length of the plaintext by repeating the key stream if necessary.
     * 
     * @param keyStream The key stream to be formatted.
@@ -135,5 +175,9 @@ public class Vigenere{
         
         }return keyStream; 
     }
+
+
+    
+
 }
 
