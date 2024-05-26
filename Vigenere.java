@@ -34,8 +34,7 @@ public class Vigenere{
            cipheredDictionary.add(String.join("", subSet) + tempCharacter); //Construct String 
            baseAlphabet.remove(tempCharacter); 
            baseAlphabet.add(tempCharacter);
-           subSet.clear(); 
-               
+           subSet.clear();    
         }
     }
     
@@ -63,7 +62,6 @@ public class Vigenere{
         return alphabet; 
     }
     
-    
     /**
     * Creates a new Vigenère table by prepending the dictionary key to the base alphabet,
     * constructing the Vigenère table, and then printing the table.
@@ -77,6 +75,10 @@ public class Vigenere{
         //printVigenereTable(); 
     }
     
+    /**
+    * Creates a new Vigenère table using a base alphabet that includes a keyword.
+    * This method sets up the table which will be used for Vigenère cipher encryption and decryption.
+    */
     public void newVigenereTable(){
         ArrayList<String> baseAlphabet = new ArrayList<>(); 
         baseAlphabet.addAll(prependKeywordToBaseAlphabet("GLYPH")); 
@@ -175,9 +177,51 @@ public class Vigenere{
         
         }return keyStream; 
     }
-
-
     
-
+    public void userCommands(){
+        System.out.println("Vigenere Cipher User Guide:\n" +
+            "\n void constructVigenereTable(ArrayList<String> baseAlphabet)\n" +
+            "   Purpose: Constructs a Vigenère table using the provided base alphabet.\n" +
+            "   Parameters: ArrayList<String> baseAlphabet - The base alphabet used to construct the table.\n" +
+            "   Usage: constructVigenereTable(new ArrayList<>(Arrays.asList(\"A\", \"B\", \"C\", ...)));\n" +
+            "\n ArrayList<String> prependKeywordToBaseAlphabet(String dictionaryKey)\n" +
+            "   Purpose: Prepends the characters of the given dictionary key to the front of the base alphabet.\n" +
+            "   Parameters: String dictionaryKey - The keyword to prepend to the base alphabet.\n" +
+            "   Returns: ArrayList<String> - The modified base alphabet with the keyword characters prepended.\n" +
+            "   Usage: ArrayList<String> modifiedAlphabet = prependKeywordToBaseAlphabet(\"KEYWORD\");\n" +
+            "\n void newVigenereTable(String dictionaryKey)\n" +
+            "   Purpose: Creates a new Vigenère table by prepending the dictionary key to the base alphabet and constructing the Vigenère table.\n" +
+            "   Parameters: String dictionaryKey - The keyword to prepend to the base alphabet.\n" +
+            "   Usage: newVigenereTable(\"KEYWORD\");\n" +
+            "\n void newVigenereTable()\n" +
+            "   Purpose: Creates a new Vigenère table using a default keyword (\"GLYPH\").\n" +
+            "   Usage: newVigenereTable();\n" +
+            "\n void printVigenereTable()\n" +
+            "   Purpose: Prints the current Vigenère table to the console.\n" +
+            "   Usage: printVigenereTable();\n" +
+            "\n String encrypt(String tempKeyStream, String plainText)\n" +
+            "   Purpose: Encrypts the plaintext message using the provided key stream.\n" +
+            "   Parameters: String tempKeyStream - The key stream used for encryption.\n" +
+            "               String plainText - The plaintext message to be encrypted.\n" +
+            "   Returns: String - The ciphertext obtained by encrypting the plaintext message.\n" +
+            "   Usage: String ciphertext = encrypt(\"KEYSTREAM\", \"PLAINTEXT MESSAGE\");\n" +
+            "\n String encrypt(String plainText)\n" +
+            "   Purpose: Encrypts the plaintext message using a default key stream (\"SATOR\").\n" +
+            "   Parameters: String plainText - The plaintext message to be encrypted.\n" +
+            "   Returns: String - The resulting ciphertext after encryption.\n" +
+            "   Usage: String ciphertext = encrypt(\"PLAINTEXT MESSAGE\");\n" +
+            "\n String formatKeyStream(String keyStream, String plainText)\n" +
+            "   Purpose: Formats the key stream to match the length of the plaintext by repeating the key stream if necessary.\n" +
+            "   Parameters: String keyStream - The key stream to be formatted.\n" +
+            "               String plainText - The plaintext whose length will be used for formatting the key stream.\n" +
+            "   Returns: String - The formatted key stream with the same length as the plaintext.\n" +
+            "   Usage: String formattedKeyStream = formatKeyStream(\"KEYSTREAM\", \"PLAINTEXT MESSAGE\");\n" +
+            "\n void userCommands()\n" +
+            "   Purpose: Placeholder for a method that handles user commands. Currently not implemented.\n" +
+            "   Usage: userCommands();"
+        ); 
+    
+    
+    
+    }
 }
-
